@@ -1,5 +1,3 @@
-// #![allow(warnings)]
-
 use std::{fs::read_to_string, iter::zip};
 
 fn main() {

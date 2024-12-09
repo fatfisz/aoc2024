@@ -1,5 +1,3 @@
-// #![allow(warnings)]
-
 use std::{collections::HashMap, fs::read_to_string};
 
 fn main() {
