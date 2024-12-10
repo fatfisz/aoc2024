@@ -53,12 +53,12 @@ fn is_report_safe(levels: &Vec<i32>) -> Option<usize> {
     let asc = diff > 0;
     let mut last_level = levels[1];
 
-    for (index, level) in levels[2..].iter().enumerate() {
-        let diff = *level - last_level;
+    for (index, &level) in levels[2..].iter().enumerate() {
+        let diff = level - last_level;
         if !is_diff_safe(diff) || ((diff > 0) != asc) {
             return Some(index + 1);
         }
-        last_level = *level;
+        last_level = level;
     }
 
     None

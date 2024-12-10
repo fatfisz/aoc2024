@@ -17,10 +17,10 @@ fn main() {
 
     for line in &mut line_iter {
         let numbers: Vec<_> = line.split(',').map(|s| s.parse::<i32>().unwrap()).collect();
-        let is_valid = numbers.iter().enumerate().all(|(index, first)| {
+        let is_valid = numbers.iter().enumerate().all(|(index, &first)| {
             numbers[index..]
                 .iter()
-                .all(|second| !forbidden.contains(&(*first, *second)))
+                .all(|&second| !forbidden.contains(&(first, second)))
         });
 
         if is_valid {

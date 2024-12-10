@@ -16,8 +16,8 @@ fn main() {
 
     let mut distance_sum = 0;
 
-    for (first, second) in zip(&first_list, &second_list) {
-        distance_sum += first.abs_diff(*second);
+    for (&first, &second) in zip(&first_list, &second_list) {
+        distance_sum += first.abs_diff(second);
     }
 
     println!("{distance_sum}");

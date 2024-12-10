@@ -14,12 +14,12 @@ fn main() {
         let mut last_level = levels[0];
         let asc = levels[1] > levels[0];
 
-        for level in &levels[1..] {
+        for &level in &levels[1..] {
             let diff = level - last_level;
             if !is_safe(diff) || ((diff > 0) != asc) {
                 continue 'outer;
             }
-            last_level = *level;
+            last_level = level;
         }
 
         safe_count += 1;
