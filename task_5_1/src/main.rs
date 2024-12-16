@@ -5,7 +5,7 @@ fn main() {
     let mut result = 0;
 
     let mut line_iter = input.split('\n');
-    let mut forbidden = HashSet::<_>::new();
+    let mut forbidden = HashSet::new();
 
     for line in &mut line_iter {
         if line.len() == 0 {
