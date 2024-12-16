@@ -73,20 +73,17 @@ fn move_box_stack(
     while current_index < box_positions.len() {
         let box_pos = box_positions[current_index];
 
-        for side in 0..=1 {
-            let next_box_pos = apply_move((box_pos.0 + side, box_pos.1), robot_move);
-
+        for next_box_pos in apply_move_to_box(box_pos, robot_move) {
             match map[next_box_pos.1][next_box_pos.0] {
                 '#' => {
                     return robot_pos;
                 }
-                '[' | ']' => {
-                    let normalized_box_pos = normalize_box_pos(map, next_box_pos);
-                    if normalized_box_pos != box_pos
-                        && Some(&normalized_box_pos) != box_positions.last()
-                    {
-                        box_positions.push(normalized_box_pos);
-                    }
+                '[' => {
+                    box_positions.push(next_box_pos);
+                    break;
+                }
+                ']' => {
+                    box_positions.push(normalize_box_pos(map, next_box_pos));
                 }
                 _ => {}
             }
@@ -96,11 +93,9 @@ fn move_box_stack(
     }
 
     for &(box_x, box_y) in box_positions.iter().rev() {
-        map[box_y][box_x] = '.';
-        map[box_y][box_x + 1] = '.';
+        map[box_y][box_x..][0..2].copy_from_slice(&['.', '.']);
         let (box_x, box_y) = apply_move((box_x, box_y), robot_move);
-        map[box_y][box_x] = '[';
-        map[box_y][box_x + 1] = ']';
+        map[box_y][box_x..][0..2].copy_from_slice(&['[', ']']);
     }
 
     return apply_move(robot_pos, robot_move);
@@ -113,6 +108,16 @@ fn apply_move((x, y): (usize, usize), robot_move: char) -> (usize, usize) {
         'v' => (x, y + 1),
         '<' => (x - 1, y),
         _ => (x, y),
+    }
+}
+
+fn apply_move_to_box((x, y): (usize, usize), robot_move: char) -> Vec<(usize, usize)> {
+    match robot_move {
+        '^' => vec![(x, y - 1), (x + 1, y - 1)],
+        '>' => vec![(x + 2, y)],
+        'v' => vec![(x, y + 1), (x + 1, y + 1)],
+        '<' => vec![(x - 1, y)],
+        _ => vec![],
     }
 }
 
