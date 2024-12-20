@@ -1,8 +1,6 @@
-use std::{fs::read_to_string, time::Instant};
+use std::fs::read_to_string;
 
 fn main() {
-    let now = Instant::now();
-
     let input = read_to_string("input.txt").unwrap();
     let input = input.trim();
 
@@ -61,8 +59,6 @@ fn main() {
 
         corrupted_indexes[y][x] = index;
     }
-
-    println!("{:.2?}", now.elapsed());
 }
 
 #[derive(Debug)]
